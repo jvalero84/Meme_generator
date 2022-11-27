@@ -23,7 +23,7 @@ class PDFIngestor(IngestorInterface):
         quotes = []
         tmp = f'./tmp/{random.randint(0,100000000)}.txt'
         try:
-            call = subprocess.run(['pdftotext', path, tmp])
+            call = subprocess.run(['pdftotext', '-layout', path, tmp])
         except CalledProcessError as ex:
             print(ex)
         else:
@@ -33,7 +33,7 @@ class PDFIngestor(IngestorInterface):
                 line = line.strip('\n\r').strip()
                 if len(line) > 0:
                     parse = line.split('-')
-                    quote = QuoteModel(parse[0], int(parse[1]))
+                    quote = QuoteModel(parse[0], (parse[1]))
                     quotes.append(quote)
                 
             file_ref.close()

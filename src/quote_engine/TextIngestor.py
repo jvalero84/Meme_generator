@@ -20,7 +20,7 @@ class TextIngestor(IngestorInterface):
                 line = line.strip('\n\r').strip()
                 if len(line) > 0:
                     parse = line.split('-')
-                    quote = QuoteModel(parse[0], int(parse[1]))
+                    quote = QuoteModel(parse[0], parse[1])
                     quotes.append(quote)
         
         return quotes
