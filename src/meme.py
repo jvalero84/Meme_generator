@@ -28,7 +28,7 @@ def generate_meme(path=None, body=None, author=None):
         quotes = []
         for f in quote_files:
             quotes.extend(Ingestor.parse(f))
-        print(f'Number of quotes collected: {len(quotes)} ')
+        #print(f'Number of quotes collected: {len(quotes)} ')
         quote = random.choice(quotes)
     else:
         if author is None:
