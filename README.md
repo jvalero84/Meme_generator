@@ -38,6 +38,7 @@ Once this is done the command line interface for the meme generator can be used.
 
 For the web interface it is necessary to start the Flask server beforehand. To do so, just execute these two commands from your terminal from src folder: 
     export FLASK_APP=app.py
+    
     flask run --host 0.0.0.0 --port 3000 --reload
 
 Then on your browser navigate to localhost:3000 to access the web interface of the meme generator.
