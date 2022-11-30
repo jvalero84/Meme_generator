@@ -1,3 +1,5 @@
+"""A module encapsulating a web application build with Flask to generate random memes or build them via user input data."""
+
 import random
 import os
 import requests
@@ -13,8 +15,7 @@ meme = MemeGenerator('./static')
 
 
 def setup():
-    """ Load all resources """
-
+    """Load all resources."""
     quote_files = ['./_data/SimpleLines/SimpleLines.txt',
                     './_data/SimpleLines/SimpleLines.docx',
                     './_data/SimpleLines/SimpleLines.pdf',
@@ -42,8 +43,7 @@ quotes, imgs = setup()
 
 @app.route('/')
 def meme_rand():
-    """ Generate a random meme """
-
+    """Generate a random meme."""
     # Use the random python standard library class to:
     # 1. select a random image from imgs array
     # 2. select a random quote from the quotes array
@@ -60,14 +60,13 @@ def meme_rand():
 
 @app.route('/create', methods=['GET'])
 def meme_form():
-    """ User input for meme information """
+    """User input for meme information."""
     return render_template('meme_form.html')
 
 
 @app.route('/create', methods=['POST'])
 def meme_post():
-    """ Create a user defined meme """
-
+    """Create a user defined meme."""
     # 1. Use requests to save the image from the image_url
     #    form param to a temp local file.
     # 2. Use the meme object to generate a meme using this temp
@@ -76,22 +75,24 @@ def meme_post():
     img_url = request.form.get('image_url')
     quote_body = request.form.get('body')
     quote_author = request.form.get('author')
-    print(f'Image URL: {img_url}')
     response = requests.get(img_url)
     isImage = response.headers['content-type'].startswith('image')
     if isImage:
         tmpImg = f'./tmp/{random.randint(0,100000000)}.jpg'
 
-        with open(tmpImg, 'wb') as img:
-            img.write(response.content)
+        try:
+            with open(tmpImg, 'wb') as img:
+                img.write(response.content)
 
-        path = meme.make_meme(tmpImg, quote_body, quote_author)
-
-        os.remove(tmpImg)
-
-        return render_template('meme.html', path=path)
+            path = meme.make_meme(tmpImg, quote_body, quote_author)
+        except BaseException as ex:
+            return render_template('meme.html', path='', error_msg=str(ex))
+        else:
+            return render_template('meme.html', path=path)
+        finally:
+            os.remove(tmpImg)
     else:
-        return render_template('meme_form.html')
+        return render_template('meme.html', path='', error_msg='Invalid image provided.')
 
 
 if __name__ == "__main__":

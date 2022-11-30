@@ -17,9 +17,6 @@ class PDFIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a .pdf file at the passed destination and output the content as a collection of QuoteModel objects."""
-        if not cls.can_ingest(path):
-            raise Exception('cannot ingest exception')
-        
         quotes = []
         tmp = f'./tmp/{random.randint(0,100000000)}.txt'
         try:

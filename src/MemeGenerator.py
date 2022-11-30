@@ -25,8 +25,8 @@ class MemeGenerator:
                     d = ImageDraw.Draw(im)
                     quote = QuoteModel(text, author)
                     quote_width = font.getlength(str(quote))
-                    x_pos = 0 if quote_width > im.size[0] else random.randint(0, im.size[0] - quote_width)
-                    quote_text = f'{quote}' if quote_width < im.size[0] else f'{quote.body}\n - {quote.author}'
+                    x_pos = 5 if quote_width > im.size[0] else random.randint(0, im.size[0] - quote_width)
+                    quote_text = f'{quote}' if quote_width < im.size[0] else f'\"{quote.body}\"\n - {quote.author}'
                     d.text((x_pos, random.randint(20,im.size[1]-40)), quote_text, font=font, fill='black')
                 
                 out_file = Path(self.output_dir) / f'{random.randint(1,1000)}.jpg'

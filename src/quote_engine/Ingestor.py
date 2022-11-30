@@ -17,7 +17,20 @@ class Ingestor(IngestorInterface):
     @classmethod
     def parse(cls, path:str) -> List[QuoteModel]:
         """Parse a file at the passed destination and output the content as a collection of QuoteModel objects. It resolves the right ingestor by the extension of the file path."""
+        quotes = []
+        ingested = False
         for imp in cls.importers:
             if imp.can_ingest(path):
-                return imp.parse(path)
+                try:
+                    quotes = imp.parse(path)
+                except BaseException as ex:
+                    print(str(ex))
+                    raise BaseException(f'The file {path} could not be parsed.')
+                else:
+                    ingested = True
+                    break
+        if ingested:
+            return quotes
+        else:
+            raise BaseException(f'The file {path} could not be parsed.')
             

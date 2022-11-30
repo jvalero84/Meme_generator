@@ -10,4 +10,4 @@ class QuoteModel:
     
     def __str__(self):
         """Print the string representation of this object as "body" - author."""
-        return f'"{self.body}" - {self.author}'
+        return f'\"{self.body}\" - {self.author}'

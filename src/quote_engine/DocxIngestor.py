@@ -14,9 +14,6 @@ class DocxIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path:str) -> List[QuoteModel]:
         """Parse a .docx file at the passed destination and output the content as a collection of QuoteModel objects."""
-        if not cls.can_ingest(path):
-            raise Exception('Cannot ingest exception')
-        
         quotes = []
         doc = docx.Document(path)
         

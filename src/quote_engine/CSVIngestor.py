@@ -14,9 +14,6 @@ class CSVIngestor(IngestorInterface):
     @classmethod
     def parse(cls, path:str) -> List[QuoteModel]:
         """Parse a .csv file at the passed destination and output the content as a collection of QuoteModel objects."""
-        if not cls.can_ingest(path):
-            raise Exception('Cannot ingest exception')
-        
         quotes = []
         
         dataframe = pandas.read_csv(path, header=0)
