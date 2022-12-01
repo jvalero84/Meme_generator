@@ -75,9 +75,15 @@ def meme_post():
     img_url = request.form.get('image_url')
     quote_body = request.form.get('body')
     quote_author = request.form.get('author')
-    response = requests.get(img_url)
+    try:
+        response = requests.get(img_url)
+    except requests.exceptions.ConnectionError:
+        print('The URL provided cannot be reached.')
+        return render_template('meme_error.html')
     isImage = response.headers['content-type'].startswith('image')
     if isImage:
+        if not os.path.isdir('./tmp'):
+            os.makedirs('./tmp')
         tmpImg = f'./tmp/{random.randint(0,100000000)}.jpg'
 
         try:

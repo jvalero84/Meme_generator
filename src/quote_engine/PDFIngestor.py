@@ -18,6 +18,8 @@ class PDFIngestor(IngestorInterface):
     def parse(cls, path: str) -> List[QuoteModel]:
         """Parse a .pdf file at the passed destination and output the content as a collection of QuoteModel objects."""
         quotes = []
+        if not os.path.isdir('./tmp'):
+            os.makedirs('./tmp')
         tmp = f'./tmp/{random.randint(0,100000000)}.txt'
         try:
             call = subprocess.run(['pdftotext', '-layout', path, tmp])
